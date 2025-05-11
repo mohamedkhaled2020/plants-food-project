@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فول وحيد</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background-color: #fff8e1;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #795548;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    nav {
+      background-color: #a1887f;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .section-title {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 28px;
+      color: #5d4037;
+    }
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .item {
+      background-color: #ffe0b2;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+    .item h3 {
+      margin: 10px 0;
+    }
+    .item:hover {
+      background-color: #ffcc80;
+    }
+    .order-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 12px 25px;
+      font-size: 18px;
+      background-color: #ff7043;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .order-btn:hover {
+      background-color: #f4511e;
+    }
+    .popup, .overlay {
+      display: none;
+    }
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 30px;
+      border: 2px solid #ff7043;
+      border-radius: 10px;
+      z-index: 10;
+      width: 300px;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+    footer {
+      text-align: center;
+      background-color: #a1887f;
+      color: white;
+      padding: 15px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>مطعم فول وحيد</h1>
+    <p>أكل مصري أصيل - طعم زمان</p>
+  </header>
+
+  <nav>
+    <a href="#menu">المنيو</a>
+    <a href="#about">عن المطعم</a>
+    <a href="#contact">تواصل معنا</a>
+  </nav>
+
+  <h2 class="section-title" id="menu">قائمة الطعام المصرية</h2>
+  <section class="menu" id="menu-items">
+    <div class="item" onclick="selectItem('فول بالسمن البلدي')"><h3>فول بالسمن البلدي</h3><p>15 جنيه</p></div>
+    <div class="item" onclick="selectItem('طعمية مقرمشة')"><h3>طعمية مقرمشة</h3><p>10 جنيه</p></div>
+    <div class="item" onclick="selectItem('بيض مسلوق')"><h3>بيض مسلوق</h3><p>8 جنيه</p></div>
+    <div class="item" onclick="selectItem('بطاطس محمرة')"><h3>بطاطس محمرة</h3><p>12 جنيه</p></div>
+    <div class="item" onclick="selectItem('كشري مصري')"><h3>كشري مصري</h3><p>25 جنيه</p></div>
+    <div class="item" onclick="selectItem('ملوخية بالأرانب')"><h3>ملوخية بالأرانب</h3><p>50 جنيه</p></div>
+    <div class="item" onclick="selectItem('محشي ورق عنب')"><h3>محشي ورق عنب</h3><p>30 جنيه</p></div>
+    <div class="item" onclick="selectItem('مسقعة')"><h3>مسقعة</h3><p>18 جنيه</p></div>
+    <div class="item" onclick="selectItem('فتة بلدي')"><h3>فتة بلدي</h3><p>35 جنيه</p></div>
+    <div class="item" onclick="selectItem('كبدة اسكندراني')"><h3>كبدة اسكندراني</h3><p>40 جنيه</p></div>
+    <div class="item" onclick="selectItem('ممبار')"><h3>ممبار</h3><p>45 جنيه</p></div>
+    <div class="item" onclick="selectItem('شوربة عدس')"><h3>شوربة عدس</h3><p>15 جنيه</p></div>
+  </section>
+
+  <div class="overlay" id="overlay" onclick="hidePopup()"></div>
+  <div class="popup" id="popup">
+    <h2>طلبك:</h2>
+    <p id="selected-item">---</p>
+    <input type="text" id="orderNotes" placeholder="ملاحظات إضافية؟" style="width: 100%; padding: 10px;">
+    <br><br>
+    <button onclick="submitOrder()" class="order-btn">تأكيد الطلب</button>
+  </div>
+
+  <h2 class="section-title" id="about">عن المطعم</h2>
+  <section style="padding: 0 20px; text-align: center;">
+    <p>مطعم مصري بيقدملك أشهى الأكلات المصرية الأصيلة، بجودة عالية وسعر مناسب. نستخدم مكونات طازجة ونحافظ على الطعم البلدي الأصيل.</p>
+  </section>
+
+  <h2 class="section-title" id="contact">تواصل معنا</h2>
+  <section style="padding: 0 20px; text-align: center;">
+    <p>العنوان: 6 شارع القبيسي خلف المستشفي القبطي متفرع من شارع رمسيس</p>
+    <p>رقم الهاتف: 01006717683</p>
+    <p>تابعنا على فيسبوك وإنستجرام</p>
+  </section>
+
+  <footer>
+    &copy; 2025 مطعم فول وحيد. جميع الحقوق محفوظة.
+  </footer>
+
+  <script>
+    let selectedItemName = "";
+
+    function showPopup() {
+      document.getElementById('popup').style.display = 'block';
+      document.getElementById('overlay').style.display = 'block';
+    }
+
+    function hidePopup() {
+      document.getElementById('popup').style.display = 'none';
+      document.getElementById('overlay').style.display = 'none';
+    }
+
+    function selectItem(itemName) {
+      selectedItemName = itemName;
+      document.getElementById('selected-item').textContent = itemName;
+      showPopup();
+    }
+
+    function submitOrder() {
+      const notes = document.getElementById('orderNotes').value;
+      alert(`تم إرسال طلبك: ${selectedItemName}\nملاحظات: ${notes}`);
+      hidePopup();
+    }
+  </script>
+</body>
+</html>
